@@ -59,6 +59,19 @@ Sample application which demonstrate XPath and XQuery features in Db2.
 - Browse `http://localhost:8080/_doc`
 
 
+## References
+
+- DB2 XPath functions
+  - https://www.ibm.com/docs/ja/i/7.5?topic=xpath-descriptions-functions
+
+- DB2 XPath types
+  - https://www.ibm.com/docs/ja/i/7.3?topic=xpath-type-system
+
+- DB2 XQuery
+  - https://www.ibm.com/docs/ja/db2/9.7?topic=data-retrieving-db2-xquery-functions
+  - https://symfoware.blog.fc2.com/blog-entry-182.html
+
+
 ## Licensing
 
 This code is licensed under MIT.
