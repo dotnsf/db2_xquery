@@ -22,7 +22,7 @@ Sample application which demonstrate XPath and XQuery features in Db2.
 
 - CLI
 
-  - `$ docker run -d --name db2 -p 50000:50000 --privileged=true -e LICENSE=accept -e DB2INST1_PASSWORD=db2inst1 -e DBNAME=db ibmcom/db2`
+  - `$ docker run -d --name db2 -p 50000:50000 --privileged=true -e LICENSE=accept -e DB2INST1_PASSWORD=db2inst1 -e DBNAME=db -v /home/someone/db2fs:/database ibmcom/db2`
 
   - `$ docker container exec -it db2 bash -c "su - db2inst1"`
 
