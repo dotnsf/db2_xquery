@@ -1,0 +1,108 @@
+swagger: '2.0'
+info:
+  description: Db2 XQuery API ドキュメント
+  version: 0.0.1
+  title: Db2 XQuery REST APIs
+#host: localhost:8080
+basePath: /api/db
+tags:
+  - name: db2
+    description: Db2 APIs
+schemes:
+  - http
+  - https
+paths:
+  /xml:
+    post:
+      tags:
+        - db2
+      summary: XML追加
+      description: XML追加
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/XmlRequest'
+      responses:
+        '200':
+          description: 成功
+        '400':
+          description: エラー
+  /ids:
+    get:
+      tags:
+        - db2
+      summary: ID取得
+      description: ID取得
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 成功
+        '400':
+          description: エラー
+  /xml/{id}:
+    get:
+      tags:
+        - db2
+      summary: ID で XML 取得
+      description: ID で XML 取得
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          type: string
+          in: path
+          description: id
+          required: true
+      responses:
+        '200':
+          description: 成功
+        '400':
+          description: エラー
+    delete:
+      tags:
+        - db2
+      summary: XML削除
+      description: XML削除
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          type: string
+          in: path
+          description: id
+          required: true
+      responses:
+        '200':
+          description: 成功
+        '400':
+          description: エラー
+  /xquery/{xquery}:
+    get:
+      tags:
+        - db2
+      summary: XQuery実行
+      description: XQuery実行
+      produces:
+        - application/json
+      parameters:
+        - name: xquery
+          type: string
+          in: path
+          description: XQuery
+          required: true
+      responses:
+        '200':
+          description: 成功
+        '400':
+          description: エラー
+definitions:
+  XmlRequest:
+    type: object
+    properties:
+      xml:
+        type: string
+        description: xml
