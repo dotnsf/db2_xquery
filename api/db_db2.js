@@ -43,7 +43,7 @@ api.createXML = async function( xmlstring ){
             console.log( err );
             resolve( { status: false, error: err } );
           }else{
-            var sql = 'insert into sample1( "xmlval" ) values ( ? )';
+            var sql = 'insert into sample1( xmlval ) values ( ? )';
             conn.query( sql, [ xmlstring ], function( err, result ){
               if( err ){
                 conn.close();
