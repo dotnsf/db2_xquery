@@ -99,6 +99,30 @@ paths:
           description: 成功
         '400':
           description: エラー
+  /xquery/{xquery}/{id}:
+    get:
+      tags:
+        - db2
+      summary: XQuery実行
+      description: XQuery実行
+      produces:
+        - application/json
+      parameters:
+        - name: xquery
+          type: string
+          in: path
+          description: XQuery
+          required: true
+        - name: id
+          type: string
+          in: path
+          description: id
+          required: true
+      responses:
+        '200':
+          description: 成功
+        '400':
+          description: エラー
 definitions:
   XmlRequest:
     type: object

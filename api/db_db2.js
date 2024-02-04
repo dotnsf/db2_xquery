@@ -193,6 +193,47 @@ api.XQuery = async function( xquery ){  //. sample: xquery = '//book[number(pric
   });
 };
 
+api.XQueryById = async function( xquery, id ){  //. sample: xquery = '//book[number(price)>0]'
+  return new Promise( async ( resolve, reject ) => {
+    try{
+      if( pool ){
+        pool.open( database_url, function( err, conn ){
+          if( err ){
+            if( conn ){
+              conn.close();
+            }
+            console.log( err );
+            resolve( { status: false, error: err } );
+          }else{
+            var sql = 'select xmlquery(\'$XML' + xquery + '\' PASSING xmlval as "XML" ) as result from sample1 where id = ?';
+            conn.query( sql, [ id ], function( err, results ){
+              if( err ){
+                conn.close();
+                console.log( err );
+                resolve( { status: false, error: err } );
+              }else{
+                conn.close();
+                if( results && results.length > 0 ){
+                  resolve( { status: true, id: id, results: results } );
+                }else{
+                  resolve( { status: false, error: 'no data' } );
+                }
+              }
+            });
+          }
+        });
+      }else{
+        resolve( { status: false, error: 'no connection.' } );
+      }
+    }catch( e ){
+      console.log( e );
+      resolve( { status: false, error: err } );
+    }finally{
+    }
+  });
+};
+
+
 //. Delete
 api.deleteXML = async function( id ){
   return new Promise( async ( resolve, reject ) => {
@@ -277,7 +318,19 @@ api.get( '/xquery/:xquery', async function( req, res ){
     res.write( JSON.stringify( results, null, 2 ) );
     res.end();
   });
-})
+});
+
+api.get( '/xquery/:xquery/:id', async function( req, res ){
+  res.contentType( 'application/json; charset=utf-8' );
+
+  var xquery = req.params.xquery ? req.params.xquery : '';
+  var id = req.params.id ? req.params.id : '';
+  api.XQueryById( xquery, id ).then( function( results ){
+    res.status( results.status ? 200 : 400 );
+    res.write( JSON.stringify( results, null, 2 ) );
+    res.end();
+  });
+});
 
 api.delete( '/xml/:id', async function( req, res ){
   res.contentType( 'application/json; charset=utf-8' );
