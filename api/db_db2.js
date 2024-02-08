@@ -30,6 +30,44 @@ api.use( bodyParser.urlencoded( { extended: true } ) );
 api.use( bodyParser.json() );
 api.use( express.Router() );
 
+//. #2 : Load XML
+api.loadXML = async function( xmlfilepath ){
+  return new Promise( async ( resolve, reject ) => {
+    try{
+      if( pool ){
+        pool.open( database_url, function( err, conn ){
+          if( err ){
+            if( conn ){
+              conn.close();
+            }
+            console.log( err );
+            resolve( { status: false, error: err } );
+          }else{
+            var xmlstring = fs.readFileSync( xmlfilepath, 'UTF-8' );
+            var sql = 'insert into sample1( xmlval ) values ( ? )';
+            conn.query( sql, [ xmlstring ], function( err, result ){
+              if( err ){
+                conn.close();
+                console.log( err );
+                resolve( { status: false, error: err } );
+              }else{
+                conn.close();
+                resolve( { status: true, result: result } );
+              }
+            });
+          }
+        });
+      }else{
+        resolve( { status: false, error: 'no connection.' } );
+      }
+    }catch( e ){
+      console.log( e );
+      resolve( { status: false, error: err } );
+    }finally{
+    }
+  });
+};
+
 //. Add XML
 api.createXML = async function( xmlstring ){
   return new Promise( async ( resolve, reject ) => {

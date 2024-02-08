@@ -1,5 +1,6 @@
 node_modules/
 package-lock.json
+samples/
 .memo.txt
 .env.*
 npm-debug.log
