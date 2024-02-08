@@ -174,6 +174,9 @@ api.XQuery = async function( xquery ){  //. sample: xquery = '//book[number(pric
               }else{
                 conn.close();
                 if( results && results.length > 0 ){
+                  for( var i = 0; i < results.length; i ++ ){
+                    results[i].RESULT = api.makeResults( results[i].RESULT );
+                  }
                   resolve( { status: true, results: results } );
                 }else{
                   resolve( { status: false, error: 'no data' } );
@@ -214,6 +217,9 @@ api.XQueryById = async function( xquery, id ){  //. sample: xquery = '//book[num
               }else{
                 conn.close();
                 if( results && results.length > 0 ){
+                  for( var i = 0; i < results.length; i ++ ){
+                    results[i].RESULT = api.makeResults( results[i].RESULT );
+                  }
                   resolve( { status: true, id: id, results: results } );
                 }else{
                   resolve( { status: false, error: 'no data' } );
@@ -275,6 +281,15 @@ api.deleteXML = async function( id ){
     }
   });
 };
+
+api.makeResults = function( xml ){
+  var tmp = xml.split( '?>' );
+  if( tmp.length > 1 ){
+    xml = tmp[0] + '?><Results>' + tmp[1] + '</Results>';
+  }
+
+  return xml;
+}
 
 
 api.post( '/xml', async function( req, res ){
